@@ -211,6 +211,14 @@ func (proxy *ProxyHttpServer) handleHttps(w http.ResponseWriter, r *http.Request
 			}
 		}
 		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					ctx.Warnf("Panic in mitm'd connection: %v", r)
+					if proxy.PanicHandler != nil {
+						proxy.PanicHandler(r)
+					}
+				}
+			}()
 			//TODO: cache connections to the remote website
 			rawClientTls := tls.Server(proxyClient, tlsConfig)
 			if err := rawClientTls.Handshake(); err != nil {

@@ -32,6 +32,8 @@ type ProxyHttpServer struct {
 	ConnectDialWithReq func(req *http.Request, network string, addr string) (net.Conn, error)
 	CertStore          CertStorage
 	KeepHeader         bool
+	// PanicHandler will be called when a panic is recovered in HTTPS
+	PanicHandler func(err interface{})
 }
 
 var hasPort = regexp.MustCompile(`:\d+$`)
