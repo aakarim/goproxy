@@ -326,6 +326,7 @@ func (proxy *ProxyHttpServer) handleHttps(w http.ResponseWriter, r *http.Request
 						return
 					}
 				}
+				ctx.Logf("request completed %v", resp.Status)
 			}
 			ctx.Logf("Exiting on EOF")
 		}()
